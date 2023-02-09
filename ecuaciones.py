@@ -3,6 +3,7 @@ Reolviendo ecuaciones lineales y sitema de ecuaciones lineales
 '''
 
 import numpy as np
+from numpy.polynomial.polynomial import Polynomial
 from fractions import Fraction
 
 
@@ -49,10 +50,72 @@ class EcuacionesLineales:
         print(mensaje[:-2])
 
 
-# 3/7 x = 4 + 2/7
-# EcuacionesLineales.solucionar_ecuacion_lineal(3/7, 4 + (2/7))
+class EcuacionesCuadraticas:
+    def __init__(self) -> None:
+        pass
 
-# x + y = 5
-# 2x − y = 7
-# EcuacionesLineales.solucionar_sistema_ecuaciones_lineales(
-#     [[1, 1], [2, -1]], [5, 7])
+    @ staticmethod
+    def calcular_discriminante(coeficientes: list):
+        '''
+        coeficientes = [ c, b, a]
+        c = termino independiente
+        b = termino con incognita grado 1
+        a = termino con incognita grado 2
+        '''
+
+        discriminante = EcuacionesCuadraticas._EcuacionesCuadraticas__discriminante(
+            coeficientes)
+
+        msg = f'El discriminante es {discriminante}, por lo tanto posee '
+        if (discriminante < 0):
+            msg += '2 raices complejas'
+        elif (discriminante > 0):
+            msg += '2 raices reales y distintas'
+        else:
+            msg += 'una unica raiz doble'
+
+        print(msg)
+        return discriminante
+
+    @ staticmethod
+    def obtener_raices(coeficientes: list):
+        '''
+        coeficientes = [ c, b, a]
+        c = termino independiente
+        b = termino con incognita grado 1
+        a = termino con incognita grado 2
+        '''
+        polinomio_2_grado = Polynomial(coef=coeficientes)
+        raices = polinomio_2_grado.roots()
+
+        EcuacionesCuadraticas._EcuacionesCuadraticas__mostrar_raices(
+            coeficientes, raices)
+
+    def __discriminante(coeficientes):
+        a = coeficientes[2]
+        b = coeficientes[1]
+        c = coeficientes[0]
+
+        resultado = (b**2) - 4 * a * c
+        return resultado
+
+    def __mostrar_raices(coeficientes, raices):
+        discriminante = EcuacionesCuadraticas._EcuacionesCuadraticas__discriminante(
+            coeficientes)
+
+        if (discriminante != 0):
+            msg = 'Las raices son: '
+
+            for i, raiz in enumerate(raices):
+                msg += f'x{i+1} = {raiz}, '
+
+            msg = msg.strip()[:-2]
+
+            print(msg)
+            print(
+                f'La ecuacion simplificada es {coeficientes[2]}( x - ({raices[0]}) )( x - ({raices[1]}) )')
+
+        else:
+            print(f'La raiz es {raices[0]}')
+            print(
+                f'La ecuacion simplificada es {coeficientes[2]}.( x{raices[0]} )^2')
