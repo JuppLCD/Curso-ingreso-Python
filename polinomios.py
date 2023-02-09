@@ -25,27 +25,27 @@ class Polinomio:
 
     @ staticmethod
     def suma(*listas_coeficientes):
-        polinomios = Polinomio.listas_coeficientes_a_polinomios(
+        polinomios = Polinomio._Polinomio__listas_coeficientes_a_polinomios(
             listas_coeficientes)
         resultado = reduce(lambda x, y: x+y, polinomios)
 
-        Polinomio.print_resultado(resultado)
+        Polinomio._Polinomio__print_resultado(resultado)
 
     @ staticmethod
     def resta(*listas_coeficientes):
-        polinomios = Polinomio.listas_coeficientes_a_polinomios(
+        polinomios = Polinomio._Polinomio__listas_coeficientes_a_polinomios(
             listas_coeficientes)
         resultado = reduce(lambda x, y: x-y, polinomios)
 
-        Polinomio.print_resultado(resultado)
+        Polinomio._Polinomio__print_resultado(resultado)
 
     @ staticmethod
     def multiplicacion(*listas_coeficientes):
-        polinomios = Polinomio.listas_coeficientes_a_polinomios(
+        polinomios = Polinomio._Polinomio__listas_coeficientes_a_polinomios(
             listas_coeficientes)
         resultado = reduce(lambda x, y: x*y, polinomios)
 
-        Polinomio.print_resultado(resultado)
+        Polinomio._Polinomio__print_resultado(resultado)
 
     @ staticmethod
     def divicion(polinomio_numerador, polinomio_denominador):
@@ -58,8 +58,8 @@ class Polinomio:
         resultado = f'P(x) = Q(x) . D(x) + R(x) ===> P(x) = ( {cociente.convert()} ) . ( {denominador.convert()} ) + ( {resto.convert()} )'
         print(resultado)
 
-    def print_resultado(resultado):
+    def __print_resultado(resultado):
         print(f'{resultado.convert()}')
 
-    def listas_coeficientes_a_polinomios(listas_coeficientes):
+    def __listas_coeficientes_a_polinomios(listas_coeficientes):
         return list(map(lambda coeficientes: Polynomial(coef=coeficientes), listas_coeficientes))
