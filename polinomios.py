@@ -2,8 +2,7 @@
 Curso de Nivelacion - Ingreso 2023
 Calculo Algebraico - Seccion 2.2.
 '''
-from numpy.polynomial.polynomial import Polynomial
-# import numpy as np
+import sympy as sp
 from functools import reduce
 
 
@@ -12,54 +11,54 @@ La forma de colocar coeficientes es desde el polinomio de menor orden al mayor,
 es decir, si tengo un polinomio [X^2 + 3X + 5] ==> la lista de coeficientes es [5, 3, 1]
 '''
 
-# Ver como expresar los polinomios en fomrato string
-# polinomio = '-3x^2+1x+5'
-# p = np.poly1d([1, 2, 3])
-# print(np.poly1d(p)) => 1 x^2 + 2 x + 3
-# print(np.poly1d([-3, 2, 7, 5])) => -3 x^3 + 2 x^2 + 7 x + 5
-
 
 class Polinomio:
     def __init__(self) -> None:
         pass
 
     @ staticmethod
-    def suma(*listas_coeficientes):
-        polinomios = Polinomio._Polinomio__listas_coeficientes_a_polinomios(
-            listas_coeficientes)
-        resultado = reduce(lambda x, y: x+y, polinomios)
+    def suma(*lista_polinomios_formato_texto):
+        lista_polinomios = Polinomio._Polinomio__string_to_expression(
+            lista_polinomios_formato_texto)
+        resultado = reduce(lambda x, y: x+y, lista_polinomios)
 
-        Polinomio._Polinomio__print_resultado(resultado)
-
-    @ staticmethod
-    def resta(*listas_coeficientes):
-        polinomios = Polinomio._Polinomio__listas_coeficientes_a_polinomios(
-            listas_coeficientes)
-        resultado = reduce(lambda x, y: x-y, polinomios)
-
-        Polinomio._Polinomio__print_resultado(resultado)
+        r, = Polinomio._Polinomio__poly_to_expression(resultado)
+        print(r)
 
     @ staticmethod
-    def multiplicacion(*listas_coeficientes):
-        polinomios = Polinomio._Polinomio__listas_coeficientes_a_polinomios(
-            listas_coeficientes)
-        resultado = reduce(lambda x, y: x*y, polinomios)
+    def resta(*lista_polinomios_formato_texto):
+        lista_polinomios = Polinomio._Polinomio__string_to_expression(
+            lista_polinomios_formato_texto)
+        resultado = reduce(lambda x, y: x-y, lista_polinomios)
 
-        Polinomio._Polinomio__print_resultado(resultado)
+        r, = Polinomio._Polinomio__poly_to_expression(resultado)
+        print(r)
+
+    @ staticmethod
+    def multiplicacion(*lista_polinomios_formato_texto):
+        lista_polinomios = Polinomio._Polinomio__string_to_expression(
+            lista_polinomios_formato_texto)
+        resultado = reduce(lambda x, y: x*y, lista_polinomios)
+
+        r, = Polinomio._Polinomio__poly_to_expression(resultado)
+        print(r)
 
     @ staticmethod
     def divicion(polinomio_numerador, polinomio_denominador):
-        nominador = Polynomial(coef=polinomio_numerador)
-        denominador = Polynomial(coef=polinomio_denominador)
+        numerador, denominador = Polinomio._Polinomio__string_to_expression(
+            [polinomio_numerador, polinomio_denominador])
 
-        cociente = nominador // denominador
-        resto = nominador % denominador
+        cociente = numerador // denominador
+        resto = numerador % denominador
 
-        resultado = f'P(x) = Q(x) . D(x) + R(x) ===> P(x) = ( {cociente.convert()} ) . ( {denominador.convert()} ) + ( {resto.convert()} )'
+        cociente, resto, denominador = Polinomio._Polinomio__poly_to_expression(
+            cociente, resto, denominador)
+
+        resultado = f'P(x) = Q(x) . D(x) + R(x) ===> P(x) = ( {cociente} ) . ( {denominador} ) + ( {resto} )'
         print(resultado)
 
-    def __print_resultado(resultado):
-        print(f'{resultado.convert()}')
+    def __poly_to_expression(*poly_to_expression):
+        return tuple(map(lambda p: p.as_expr(), poly_to_expression))
 
-    def __listas_coeficientes_a_polinomios(listas_coeficientes):
-        return list(map(lambda coeficientes: Polynomial(coef=coeficientes), listas_coeficientes))
+    def __string_to_expression(lista_polinomios):
+        return tuple(map(lambda p: sp.Poly(sp.sympify(p)), lista_polinomios))
