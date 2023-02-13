@@ -2,66 +2,68 @@
 Reolviendo ecuaciones lineales y sitema de ecuaciones lineales
 '''
 
-import numpy as np
-from numpy.polynomial.polynomial import Polynomial
-from fractions import Fraction
+import sympy as sp
 
 
 class EcuacionesLineales:
+    symbols = sp.symbols('x,y')
+
     def __init__(self) -> None:
         pass
 
     @ staticmethod
-    def solucionar_ecuacion_lineal(coeficiente, solucion):
-        resultado = np.linalg.solve(
-            np.array([[coeficiente]]), np.array([solucion]))
+    def solucionar_ecuacion_lineal(ecuacion_texto: str, solucion: float | int):
+        ecuacion = sp.Eq(sp.sympify(ecuacion_texto), solucion)
 
-        coef = coeficiente
-        sol = solucion
-
-        if (type(coeficiente) == float):
-            coef = Fraction(str(coeficiente)).limit_denominator()
-
-        if (type(solucion) == float):
-            sol = Fraction(str(solucion)).limit_denominator()
+        resultado = sp.solve(ecuacion, EcuacionesLineales.symbols[0])
 
         print(
-            f'La solucion es ({resultado[0]}) a la escuacion lineal ({coef}x = {sol})')
+            f'La solucion es ({resultado[0]}) a la escuacion lineal ({ecuacion_texto} = {solucion})')
 
     @ staticmethod
-    def solucionar_sistema_ecuaciones_lineales(coeficientes: list, soluciones: list):
+    def solucionar_sistema_ecuaciones_lineales(ecuaciones: tuple):
         '''
-        coeficientes => [
-                            [ coef_incognita_1, coef_incognita_2, ( ... ), coef_incognita_n ] ==> ecuacion_1 ,
-                            [ coef_incognita_1, coef_incognita_2, ( ... ), coef_incognita_n ] ==> ecuacion_2 ,
-                                                    ( ... )                                    ( ... )   ,
-                            [ coef_incognita_1, coef_incognita_2, ( ... ), coef_incognita_n ]  ==> ecuacion_n
+        ecuaciones => [
+                            ecuacion_1 ,
+                            ecuacion_2 ,
+                            ( ... ),
+                            ecuacion_n
                         ]
-        soluciones => [ [ solucion_ecuacion_1, solucion_ecuacion_2, ( ... ), solucion_ecuacion_3 ] ]
+
+        Ejemplo:
+            "x + y = 5",
+            "2x - y = 7";
+
+            ecuaciones = ("x + y - 5", "2*x - y - 7")
         '''
-        resultados = np.linalg.solve(
-            np.array(coeficientes), np.array(soluciones))
+        sistema_ecuaciones = []
 
-        mensaje = 'Los resultados son: '
-        for i, resultado in enumerate(resultados):
-            mensaje += f'( {i+1}_incognita = {resultado} ), '
+        for ecuacion in ecuaciones:
+            sistema_ecuaciones.append(sp.sympify(ecuacion))
 
-        mensaje.strip()
-        print(mensaje[:-2])
+        r = sp.solve(sistema_ecuaciones, *EcuacionesLineales.symbols)
+
+        if (len(r) == 0):
+            print('Determinante es 0, ver si tiene infinitas soluciones o no')
+
+        print('Los resultados son: ', r)
 
 
 class EcuacionesCuadraticas:
+    symbols = sp.symbols('x,y')
+
     def __init__(self) -> None:
         pass
 
     @ staticmethod
-    def calcular_discriminante(coeficientes: list):
+    def calcular_discriminante(ecuacion: str):
         '''
-        coeficientes = [ c, b, a]
-        c = termino independiente
-        b = termino con incognita grado 1
-        a = termino con incognita grado 2
+        Ejemplo:
+            "x^2 - 5x + 6",
+            ecuacion = "x**2 - 5*x + 6"
         '''
+        ecuacion_2_grado = sp.sympify(ecuacion)
+        coeficientes = sp.Poly(ecuacion_2_grado).all_coeffs()
 
         discriminante = EcuacionesCuadraticas._EcuacionesCuadraticas__discriminante(
             coeficientes)
@@ -78,23 +80,25 @@ class EcuacionesCuadraticas:
         return discriminante
 
     @ staticmethod
-    def obtener_raices(coeficientes: list):
+    def obtener_raices(ecuacion: str):
         '''
-        coeficientes = [ c, b, a]
-        c = termino independiente
-        b = termino con incognita grado 1
-        a = termino con incognita grado 2
+        Ejemplo:
+            "x^2 - 5x + 6",
+            ecuacion = "x**2 - 5*x + 6"
         '''
-        polinomio_2_grado = Polynomial(coef=coeficientes)
-        raices = polinomio_2_grado.roots()
+
+        ecuacion_2_grado = sp.sympify(ecuacion)
+        raices = sp.solve(ecuacion_2_grado, EcuacionesCuadraticas.symbols[0])
+
+        coeficientes = sp.Poly(ecuacion_2_grado).all_coeffs()
 
         EcuacionesCuadraticas._EcuacionesCuadraticas__mostrar_raices(
             coeficientes, raices)
 
     def __discriminante(coeficientes):
-        a = coeficientes[2]
+        a = coeficientes[0]
         b = coeficientes[1]
-        c = coeficientes[0]
+        c = coeficientes[2]
 
         resultado = (b**2) - 4 * a * c
         return resultado
@@ -109,13 +113,13 @@ class EcuacionesCuadraticas:
             for i, raiz in enumerate(raices):
                 msg += f'x{i+1} = {raiz}, '
 
-            msg = msg.strip()[:-2]
+            msg = msg.strip()[:-1]
 
             print(msg)
             print(
-                f'La ecuacion simplificada es {coeficientes[2]}( x - ({raices[0]}) )( x - ({raices[1]}) )')
+                f'La ecuacion simplificada es {coeficientes[0]}( x - ({raices[0]}) )( x - ({raices[1]}) )')
 
         else:
             print(f'La raiz es {raices[0]}')
             print(
-                f'La ecuacion simplificada es {coeficientes[2]}.( x{raices[0]} )^2')
+                f'La ecuacion simplificada es {coeficientes[0]}( x - ({raices[0]}) )^2')
