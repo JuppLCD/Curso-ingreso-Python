@@ -1,4 +1,5 @@
 # from ecuaciones import EcuacionesLineales, EcuacionesCuadraticas
+from proposiciones import TablasDeVerdad
 
 # ECUACIONES LINEALES
 # 30x = 5
@@ -33,3 +34,10 @@
 # x^2 + 4x + 4
 # EcuacionesCuadraticas.calcular_discriminante('x**2 + 4*x + 4')
 # EcuacionesCuadraticas.obtener_raices('x**2 + 4*x + 4')
+
+# Creando las tablas de verdad para los simbolos logicos mas comunes
+# TablasDeVerdad.conjuncion()
+# TablasDeVerdad.disyuncion()
+# TablasDeVerdad.disyuncion_exclusiva()
+# TablasDeVerdad.implicacion()
+# TablasDeVerdad.implicacion_doble()
