@@ -29,13 +29,17 @@ class TablasDeVerdad:
         TablasDeVerdad.pintar_tabla(
             TablasDeVerdad, 'p \t | q \t \t | p ⇔ q ', '<==>')
 
-    def pintar_tabla(self, titulo, operador_logico):
+    @ staticmethod
+    def negacion():
+        TablasDeVerdad.pintar_tabla(
+            TablasDeVerdad, 'p \t | ¬ p ', 'not', '{p} \t | {valor_verdad}')
+
+    def pintar_tabla(self, titulo, operador_logico, tabla='{p} \t | {q} \t | {valor_verdad}'):
         print(titulo)
         for p in self.valores:
             for q in self.valores:
                 valor_verdad = self.valor_de_verdad(p, q, operador_logico)
-                print(
-                    f'{p} \t | {q} \t | {valor_verdad}')
+                print(tabla.format(p=p, q=q, valor_verdad=valor_verdad))
 
     def valor_de_verdad(p, q, operador_logico):
         if (operador_logico == 'and'):
@@ -48,5 +52,8 @@ class TablasDeVerdad:
             return not (p) or q
         if (operador_logico == '<==>'):
             return (not (p) or q) and (not (q) or p)
+        if (operador_logico == 'not'):
+            # p == q
+            return not p
 
         return 'Error'

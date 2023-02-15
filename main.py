@@ -1,5 +1,5 @@
 # from ecuaciones import EcuacionesLineales, EcuacionesCuadraticas
-from proposiciones import TablasDeVerdad
+# from proposiciones import TablasDeVerdad
 
 # ECUACIONES LINEALES
 # 30x = 5
@@ -41,3 +41,4 @@ from proposiciones import TablasDeVerdad
 # TablasDeVerdad.disyuncion_exclusiva()
 # TablasDeVerdad.implicacion()
 # TablasDeVerdad.implicacion_doble()
+# TablasDeVerdad.negacion()
