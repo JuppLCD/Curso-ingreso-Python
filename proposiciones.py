@@ -1,3 +1,9 @@
+'''
+Curso de Nivelacion - Ingreso 2023
+Logica - Tablas de verdad
+'''
+
+
 class TablasDeVerdad:
     valores = (True, False)
 

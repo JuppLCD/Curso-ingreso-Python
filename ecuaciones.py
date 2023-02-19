@@ -1,5 +1,6 @@
 '''
-Reolviendo ecuaciones lineales y sitema de ecuaciones lineales
+Curso de Nivelacion - Ingreso 2023
+Calculo Algebraico - Ecuaciones Lineales, Sistema de ecuaciones lineales y Ecuaciones cuadratias
 '''
 
 import sympy as sp
@@ -12,7 +13,7 @@ class EcuacionesLineales:
         pass
 
     @ staticmethod
-    def solucionar_ecuacion_lineal(ecuacion_texto: str, solucion: float | int):
+    def resolver(ecuacion_texto: str, solucion: float | int):
         ecuacion = sp.Eq(sp.sympify(ecuacion_texto), solucion)
 
         resultado = sp.solve(ecuacion, EcuacionesLineales.symbols[0])
@@ -21,7 +22,7 @@ class EcuacionesLineales:
             f'La solucion es ({resultado[0]}) a la escuacion lineal ({ecuacion_texto} = {solucion})')
 
     @ staticmethod
-    def solucionar_sistema_ecuaciones_lineales(ecuaciones: tuple):
+    def resolver_sistema_ecuaciones_lineales(ecuaciones: tuple):
         '''
         ecuaciones => [
                             ecuacion_1 ,
@@ -80,22 +81,27 @@ class EcuacionesCuadraticas:
         return discriminante
 
     @ staticmethod
-    def obtener_raices(ecuacion: str):
+    def resolver(ecuacion: str):
         '''
         Ejemplo:
             "x^2 - 5x + 6",
             ecuacion = "x**2 - 5*x + 6"
         '''
-
+        # Pasar la ecuacion de un string a una exprecion
         ecuacion_2_grado = sp.sympify(ecuacion)
-        raices = sp.solve(ecuacion_2_grado, EcuacionesCuadraticas.symbols[0])
-
-        coeficientes = sp.Poly(ecuacion_2_grado).all_coeffs()
 
         EcuacionesCuadraticas._EcuacionesCuadraticas__mostrar_raices(
-            coeficientes, raices)
+            ecuacion_2_grado)
 
-    def __discriminante(coeficientes):
+    @staticmethod
+    def vertice(ecuacion: str):
+        ecuacion_2_grado = sp.sympify(ecuacion)
+
+        vertice = EcuacionesCuadraticas._EcuacionesCuadraticas__obtener_vertice(
+            ecuacion_2_grado)
+        print(vertice)
+
+    def __discriminante(coeficientes) -> int | float:
         a = coeficientes[0]
         b = coeficientes[1]
         c = coeficientes[2]
@@ -103,7 +109,13 @@ class EcuacionesCuadraticas:
         resultado = (b**2) - 4 * a * c
         return resultado
 
-    def __mostrar_raices(coeficientes, raices):
+    def __mostrar_raices(ecuacion_2_grado):
+        raices = EcuacionesCuadraticas._EcuacionesCuadraticas__obtener_raices(
+            ecuacion_2_grado)
+
+        coeficientes = EcuacionesCuadraticas._EcuacionesCuadraticas__obtener_coeficientes(
+            ecuacion_2_grado)
+
         discriminante = EcuacionesCuadraticas._EcuacionesCuadraticas__discriminante(
             coeficientes)
 
@@ -123,3 +135,32 @@ class EcuacionesCuadraticas:
             print(f'La raiz es {raices[0]}')
             print(
                 f'La ecuacion simplificada es {coeficientes[0]}( x - ({raices[0]}) )^2')
+
+    def __obtener_raices(ecuacion_2_grado):
+        return sp.solve(ecuacion_2_grado, EcuacionesCuadraticas.symbols[0])
+
+    def __obtener_coeficientes(ecuacion_2_grado):
+        return sp.Poly(ecuacion_2_grado).all_coeffs()
+
+    def __obtener_vertice(ecuacion_2_grado):
+        coeficientes = EcuacionesCuadraticas._EcuacionesCuadraticas__obtener_coeficientes(
+            ecuacion_2_grado)
+
+        discriminante = EcuacionesCuadraticas._EcuacionesCuadraticas__discriminante(
+            coeficientes)
+
+        raices = EcuacionesCuadraticas._EcuacionesCuadraticas__obtener_raices(
+            ecuacion_2_grado)
+
+        if (discriminante == 0):
+            # Al ser 0 la ecuacion da una unica raiz real, por lo que sera x vertice y su imagen 0
+            return (raices[0], 0)
+
+        a = coeficientes[0]
+        b = coeficientes[1]
+
+        x_vertice = -b/(2*a)
+        y_vertice = ecuacion_2_grado.subs(
+            EcuacionesCuadraticas.symbols[0], x_vertice)
+
+        return (x_vertice, y_vertice)

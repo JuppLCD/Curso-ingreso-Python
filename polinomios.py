@@ -1,15 +1,9 @@
 '''
 Curso de Nivelacion - Ingreso 2023
-Calculo Algebraico - Seccion 2.2.
+Calculo Algebraico - Polinomios
 '''
 import sympy as sp
 from functools import reduce
-
-
-'''
-La forma de colocar coeficientes es desde el polinomio de menor orden al mayor,
-es decir, si tengo un polinomio [X^2 + 3X + 5] ==> la lista de coeficientes es [5, 3, 1]
-'''
 
 
 class Polinomio:
