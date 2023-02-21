@@ -49,6 +49,12 @@ class EcuacionesLineales:
 
         print('Los resultados son: ', r)
 
+    @staticmethod
+    def graficar(ecuacion: str):
+        ecuacion_lineal = sp.sympify(ecuacion)
+        sp.plot(ecuacion_lineal, show=False,
+                xlim=[-20, 20], ylim=[-20, 20]).show()
+
 
 class EcuacionesCuadraticas:
     symbols = sp.symbols('x,y')
@@ -100,6 +106,12 @@ class EcuacionesCuadraticas:
         vertice = EcuacionesCuadraticas._EcuacionesCuadraticas__obtener_vertice(
             ecuacion_2_grado)
         print(vertice)
+
+    @staticmethod
+    def graficar(ecuacion: str):
+        ecuacion_2_grado = sp.sympify(ecuacion)
+        sp.plot(ecuacion_2_grado, show=False,
+                xlim=[-20, 20], ylim=[-20, 20]).show()
 
     def __discriminante(coeficientes) -> int | float:
         a = coeficientes[0]

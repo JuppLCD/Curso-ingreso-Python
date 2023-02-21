@@ -1,4 +1,4 @@
-from ecuaciones import EcuacionesLineales, EcuacionesCuadraticas
+# from ecuaciones import EcuacionesLineales, EcuacionesCuadraticas
 # from proposiciones import TablasDeVerdad
 
 # ECUACIONES
@@ -54,3 +54,7 @@ from ecuaciones import EcuacionesLineales, EcuacionesCuadraticas
 # EcuacionesCuadraticas.vertice('x**2')
 # x^2 + 2x - 3 => v = (-1,-4)
 # EcuacionesCuadraticas.vertice('x**2 + 2*x -3')
+
+# Grafica de funciones lineales y cuadraticas
+# EcuacionesLineales.graficar('2*x +5')
+# EcuacionesCuadraticas.graficar('x**2 + 2*x -3')
